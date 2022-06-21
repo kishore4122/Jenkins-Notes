@@ -1,0 +1,21 @@
+pipeline{
+    agent {label 'demo'}
+    parameters{
+        string(name: 'PERSON', defaultValue: 'kishore', description: 'enter the name of the person')
+        text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter something about your biography')
+        boolParam(name: 'TOOGLE', defaultValue: true, description: 'Toogle this value')
+        choice(name: 'CHOOSE', choices: ['one'. 'two'.. 'three'], description: 'picksomething')
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter the password')
+    }
+    stages{
+        stage('stage 1'){
+            steps{
+                echo "Hello ${params.PERSON}"
+                echo "Your ${params.BIOGRAPHY}"
+                echo "Toogle ${params.TOOGLE}"
+                echo "choice ${params.CHOOSE}"
+                echo "password ${params.PASSWORD}"
+            }
+        }
+    }
+}

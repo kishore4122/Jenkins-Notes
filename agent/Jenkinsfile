@@ -1,0 +1,81 @@
+pipeline{
+    agent any
+    stages{
+        stage('stage1'){
+            agent {label 'demo1'}
+            steps{
+                echo "First stage"
+            }
+        }
+        stage{
+            steps{
+                echo "Second stage"
+            }
+        }
+    }
+}
+
+##########################################
+## Basic pipeline syntax #################
+##########################################
+pipeline {
+    agent any  /*Here for agent we can place any, none, label, node*/
+    stages {
+        stage ("Build") {
+            steps {
+                echo "Build Stage"
+            }
+        }
+        stage ("Test") {
+            steps {
+                echo "Test Stage"
+            }
+        }
+    }
+}
+
+#########################################
+### agent label #########################
+#########################################
+pipeline {
+    agent {
+        label 'test'
+    }
+    stages {
+        stage("Build") {
+            steps {
+                echo "Build stage"
+            }
+        }
+        stage("Test") {
+            steps{
+                echo "Test stage"
+            }
+        }
+    }
+}
+
+#########################################
+## agent node ###########################
+#########################################
+pipeline {
+    agent {
+        node {
+            label 'test'
+            customWorkspace 'D:\\CLASSROOM\JENKINS\\WORKSPACE'
+        }
+    }
+    stages{
+        stage("Build") {
+            steps{
+                echo "Build stage"
+            }
+        }
+        stage("Test"){
+            steps{
+                echo "Test stage"
+            }
+        }
+    }
+}
+

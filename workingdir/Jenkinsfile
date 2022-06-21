@@ -1,0 +1,21 @@
+pipeline{
+    agent none
+    stages{
+        stage('stage 1'){
+            agent{
+                node{
+                    label 'none'
+                    customWorkspace '/tmp/kishore'
+                }
+            }
+            steps{
+                echo "First stage"
+            }
+        }
+        stege('stage 2'){
+            steps{
+                echo "Second stage"
+            }
+        }
+    }
+}
