@@ -1,0 +1,13 @@
+pipeline{
+	agent {label 'demo'}
+	options{
+		timeout(time: 5, unit: 'SECONDS')
+	}
+	stages{
+		stage('Stage1'){
+			steps{
+				sh 'sleep 10'
+			}
+		}
+	}
+}

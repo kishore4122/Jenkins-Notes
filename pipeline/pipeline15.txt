@@ -1,0 +1,12 @@
+pipeline{
+	agent {label 'demo'}
+	stages{
+		stage('Clone Repo'){
+			steps{
+				echo "Going to checkout from Git"
+				git branch: 'main', url: 'https://github.com/kishore4122/maven.git'
+				echo "Completed checkout from git"
+			}
+		}
+	}
+}

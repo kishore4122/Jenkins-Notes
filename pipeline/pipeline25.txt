@@ -1,0 +1,20 @@
+pipeline{
+	agent {label 'demo'}
+	parameters{
+		string(name: 'PERSON', defaultValue: 'Mr-Kishore', description: 'who are you')
+		booleanParam(name: 'TOOGLE', defaultValue: true, description: 'Toogle this value')
+	}
+	stages{
+		stage('Stage1'){
+			when {
+				anyOf{
+					equals expected: 'kishore', actual: params.PERSON
+					expression { return params.TOOGLE}
+				}
+			}
+			steps{
+				echo "hello kishore both the conditions are met"
+			}
+		}
+	}
+}

@@ -1,0 +1,15 @@
+pipeline{
+	agent {label 'demo'}
+	stages{
+		stage('Nightly Build'){
+			steps{
+				build job: 'Nightlyjob', wait: false #here after bulid we need to mention the jobname
+			}
+		}
+		stage{
+			steps{
+				echo 'Testing'
+			}
+		}
+	}
+}

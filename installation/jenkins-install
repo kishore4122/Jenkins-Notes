@@ -1,0 +1,98 @@
+## Prerequisites
+1. 4 GB+ of RAM
+2. 10 GB+ of drive space
+3. In AWS, Go for t2.medium instance type atleast
+
+## Software reuirements
+java 8 and 11
+
+## Jenkins configuration
+Jenkins will start as a daemon on port 8080 on system boot:/etc/init.d/jenkins
+
+Logs  -- /var/log/jenkins/jenkins.log
+default configuration (RHEL) -- /etc/sysconfig/jenkins
+default configuration (Dibean) -- /etc/default/jenkins
+
+java-8
+
+sudo yum update -y
+sudo yum list | grep openjdk
+sudo yum install -y java-1.8.0-openjdk
+sudo yum install -y java-1.8.0-openjdk-devel.x86_64(Optional)
+
+java-11
+
+sudo yum update -y
+sudo amazon-linux-extras install epel -y
+sudo amazon-linux-extras install jva-openjdk11 -y
+sudo yum install epel-release java-11-openjdk-devel(Optional)
+
+
+sudo alternatives --config java
+sudo /usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk/bin/java
+
+# sudo which java
+/bin/java
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+## Running jenkins as a Docker container
+
+In AWS, we have docker reps so install them directly using
+sudo yum install docker
+
+
+docker run -d -p 8080:8080 -p 50000:50000 -v $PWD/jenkins_home:/var/lib/jenkins_home --name jenkins jenkins/jenkins:lts-jdk-11
+
+
+
+
+
+
+
+#### Java 11 on Amazon linux 2 ####
+$ sudo amazon-linux-extras install java-openjdk11  -- to install runtime environment
+
+$ sudo yum install java-11-openjdk-devel -- to install development kit
+
+## Amazon Corretto 11 Installation Instructions for Amazon Linux 2  ##
+Option 1:Install headless Amazon Corretto 11: sudo yum install java-11-amazon-corretto-headless
+
+Option 2: Install the full Amazon Corretto 11: sudo yum install java-11-amazon-corretto
+
+The installation location is /usr/lib/jvm/java-11-amazon-corretto.<cpu_arch>.
+
+
+## Jenkins Install ##
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+yum install jenkins
+
+
+
+### Optional ####
+
+$ update-alternatives --config editor  -- to change the default editor
+$ update-alternatives --config java  -- to change java version
+
+
+$ systemctl edit jenkins  --- it will open an vim editor. 
+
+[Service]
+Environment="JAVA_OPTS=-Djava.awt.headless=true
+                       -Djava.net.preferIPv4Stack=true 
+                       -Djava.io.tmpdir=/var/cache/jenkins/tmp/
+                       -Dorg.apache.commons.jelly.tags.fmt.timeZone=America/New_York
+                       -Duser.timezone=America/New_York"
+Environment="JENKINS_OPTS=--pluginroot=/var/cache/jenkins/plugins"                   
+
+
+
+$ mkdir -p /var/cache/jenkins/tmp
+$ chown -R jenkins:jenkins /var/cache/jenkins/tmp
+
+

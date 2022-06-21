@@ -1,0 +1,15 @@
+pipeline{
+	agent {label 'demo'}
+	stages{
+		stage('Nightly Build'){
+			steps{
+				build 'Nightlyjob'
+			}
+		}
+		stage{
+			steps{
+				echo 'Testing'
+			}
+		}
+	}
+}

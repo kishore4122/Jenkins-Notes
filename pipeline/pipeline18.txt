@@ -1,0 +1,15 @@
+pipeline{
+	agent {label 'demo'}
+	stages{
+		stage('mail'){
+			steps{
+				main bcc: '', body: '', cc: '', frm: '', replyTo: '', subject: '', to: '',
+			}
+		}
+		stage{
+			steps{
+				echo 'Testing'
+			}
+		}
+	}
+}

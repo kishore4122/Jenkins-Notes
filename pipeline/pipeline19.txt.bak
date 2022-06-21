@@ -1,0 +1,19 @@
+pipeline{
+	agent {label 'demo'}
+	stages{
+		stage('Stage1'){
+			steps{
+				sh 'touch file'
+				dir('/tmp'){
+					sh 'touch file1'
+				}
+				sh 'touch file2'
+			}
+		}
+		stage{
+			steps{
+				echo 'Testing'
+			}
+		}
+	}
+}

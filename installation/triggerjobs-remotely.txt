@@ -1,0 +1,2 @@
+JENKINS_URL/job/remote-job/build?token=TOKEN_NAME
+curl -X POST http://15.206.73.145:8080/job/remote-job/build?token=test001 --user kishore:111105bff418a8cda2dc82bb1982e982a7

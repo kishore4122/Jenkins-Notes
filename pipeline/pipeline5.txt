@@ -1,0 +1,18 @@
+pipeline {
+    agent {label 'demo'}
+	environment {
+		MYNAME = 'kishore'
+	}
+    stages{
+        stage('Stage1'){
+            steps{
+                echo "your name is ${MYNAME}"
+            }
+        }
+		stage('Stage2'){
+			steps{
+				echo env.MYNAME
+			}
+		}
+    }
+}

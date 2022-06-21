@@ -1,0 +1,20 @@
+pipeline{
+	agent {label 'demo'}
+	parameters{
+		booleanParam(name: 'TOOGLE', defaultValue: true, description: 'Toogle this value')
+	}
+	stages{
+		stage('Stage1'){
+			when { expression { return params.TOOGLE}}
+			steps{
+				echo 'Running Stage1 '
+			}
+		}
+		stage('Stage2'){
+			when { expression { return params.TOOGLE}}
+			steps{
+				echo 'Running Stage2 '
+			}
+		}
+	}
+}
