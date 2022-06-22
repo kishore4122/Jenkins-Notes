@@ -1,0 +1,11 @@
+Jenkins
+ Build With Parameters
+
+   1. A build parameter allows us to pass data into our Jenkins jobs, just like sending a JSON payload to a webhook URL
+   2. We can pass any data we want like git branch name, secrets, credentials, hostnames and ports, and so on
+   3. Any Jenkins freestyle job or pipeline can DevOps be parameterized 
+   4. Supported parameter types include Strings, Booleans, Choices, Files, Credentials,Password, URL to another job etc
+   5. In freestyle jobs, you can access the parameter just like any environment variable using the
+   6. shell syntax: ${PARAMETER_NAME} or windows syntax: %PARAMETER_NAME%
+   7. In pipelines, you can access using shell syntax: ${PARAMETER_NAME} or with params variable syntax: params.PARAMETER_NAME
+	

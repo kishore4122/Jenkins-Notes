@@ -1,0 +1,21 @@
+### Triggering remote build without Parameters ###
+
+JENKINS_URL/job/remote-job/build?token=TOKEN_NAME
+curl -X POST http://15.206.73.145:8080/job/remote-job/build?token=test001 --user kishore:111105bff418a8cda2dc82bb1982e982a7
+
+
+### Triggering remote build with Parameters ###
+
+curl -X POST "http://3.111.39.210:8080/job/params_job/buildWithParameters?token=JOB_TOKEN&IMAGE_NAME=test&IMAGE_TAG=1.11&isWorking=false&ENVIRONMENT=uat" \
+--user admin:11e91c3949b7b9e96186af6ce533a7c998
+
+curl -X POST "http://3.111.39.210:8080/job/params_job/buildwithParameters?token=JOB_TOKEN" \
+--user admin:11e91c3949b7b9e96186af6ce533a7c998 \
+--data IMAGE_NAME-maven-app \
+--data IMAGE_TAG=3.33 \
+--data isWorking=false \
+--data ENVIRONMENT=prod
+
+curl -X POST "http://3.111.39.210:8080/job/params_job/buildWithParameters?token=JOB_TOKEN" \
+--user admin:11e91c3949b7b9e96186af6ce533a7c998 \
+--data "IMAGE_NAME=test&IMAGE_TAG=1.11&isWorking=false&ENVIRONMENT=uat"
