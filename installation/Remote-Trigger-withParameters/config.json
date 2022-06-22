@@ -1,0 +1,7 @@
+{
+    "jenkins_url" : "http://15.206.73.145:8080",
+    "user" : "kishore",
+    "user_token" : "111105bff418a8cda2dc82bb1982e982a7",
+    "job_name" : "remote-job",
+    "job_token" : "test001"
+}
