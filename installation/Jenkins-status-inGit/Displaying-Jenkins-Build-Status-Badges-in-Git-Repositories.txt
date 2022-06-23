@@ -1,0 +1,8 @@
+## Displaying Jenkins Build Status Badges in Git Repositories ##
+
+Plugins --  Embeddable build status
+        --  GitHub Checks
+
+Jenkins
+    Setup
+        Manage Jenkins --> Configure Global Security --> Authorization --> Matrix Based Security --> assign Anonymous Users with ViewStatus Jb Permission           

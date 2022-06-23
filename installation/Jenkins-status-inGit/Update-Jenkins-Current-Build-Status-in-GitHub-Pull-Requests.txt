@@ -1,0 +1,60 @@
+## Update Jenkins Current Build Status in GitHub Pull Requests ##
+
+THE PROBLEM STATEMENT
+● OnceaPR is raised,we will build the branch(HEAD)including running the test cases and any
+  sort of quality checks before merging the branch back to the main line.
+• But,in order to see the Jenkins build status,you need to go to jenkins job and check the
+  console output as you can't see Jenkins build status in GitHub Pull Request
+
+Plugins --  Generic Webhook Trigger
+            Post Build Task
+
+
+## kishore git hub personal access token ##
+111105bff418a8cda2dc82bb1982e982a7
+
+curl -u USERNAME:USER_TOKEN -X POST
+"https://api.github.com/repos/GITHUB_USERNAME/REPO_NAME/statuses/COMMIT_ID"-H
+"Accept:application/vnd.github.v3+json"-d"{\"state\":\"success\",\"context\":
+\"ANY_MESSAGE\",\"description\":\"Jenkins\",\"target_url\":
+\"JENKINS_URL/job/$JOB_NAME/$BUILD_NUMBER/console\"}"
+
+curl -u kishore4122:111105bff418a8cda2dc82bb1982e982a7 -X POST "https://api.github.com/repos/kishore4122/Maven-Webapp/statuses/$GIT_COMMIT" -H "Accept: application/vnd.github.v3+json" -d "{\"state\": \"success\", \"context\": \"ANY_MESSAGE\", \"description\": \"Jenkins\", \"target_url\": \"http://13.126.7.100:8080/job/$JOB_NAME/$BUILD_NUMBER/console\"}"
+
+curl -u kishore4122:111105bff418a8cda2dc82bb1982e982a7 -X POST"https://api.github.com/repos/kishore4122/Maven-Webapp/statuses/$GIT_COMMIT"-H"Accept Oapplication/vnd.github.v3+json"-d
+"{\"state\":\"success\",\"context\":\"continuous-Integration-Job\",
+\"description\":\"Jenkins\",\"target_url\":
+\"http://13.126.7.100:8080/job/$JOB_NAME/$BUILD_NUMBER/console\"}"
+
+## For Reference ##
+https://docs.github.com/en/rest/guides/getting-started-with-the-rest-api
+https://docs.github.com/en/rest/reference/commits#create-a-commit-status
+
+
+#!/bin/bash
+#Function to send jenkins stage status
+send_status(){
+
+stage=$1
+status=$2
+
+curl -u kishore4122:ghp_R5zECp6qIivpfMF06fBjqkT00N15ep2ENuzu -X POST"https://api.github.com/repos/kishore4122/maven-webapp/
+statuses/$GIT_COMMIT" -H "Accept: application/vnd.github.v3+json" -d "{\"state\": \"$status\", \"context\": \"$stage\", \"description": 
+\"Jenkins\", \"target_url\": \"http://65.1.106.242:8080/job/$JOB_NAME/$BUILD_NUMBER/console\"}"
+}
+
+hostname
+if[$?-eq0]
+then
+send_status build-stage success
+else
+send status build-stage failure
+fi
+
+cat test.sh
+if[$?-eq0]
+then
+send_status unit-tests success
+else
+send_status unit-tests failure
+fi
