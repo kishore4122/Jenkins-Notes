@@ -1,0 +1,172 @@
+Nexus
+Repository
+  Arepository is a storage location where components such as packages,
+  libraries,binaries,or containers are retrieved so they can be installed
+  or used.
+  
+  In order to ease consumption and usage of open source components,they
+  are aggregated into collections on public repositories,and are typically
+  available on the internet asaservice.
+  
+  Examples of such repositories are:
+     Central Repository,also known as Maven Central
+     NuGet Gallery
+     RubyGems.org
+     npmjs.org
+     Dockerhub
+	 
+Nexus
+	Repository Manager
+		A repository manager isadedicated server application used to manage all
+		the repositories your development teams use throughout the course of
+		development.
+		At its core,arepository manager does the following:
+
+		1. Store and retrieve build artifacts.
+		2. Proxies remote repositories and caches contents.
+		3. Hosts internal repositories.
+		4. Groups repositories intoasingle repository.
+		5. Enable greater collaboration between developers.
+		6. Bring increased build performance due toawider distribution of
+			software and locally available parts.
+		7. Reduce network bandwidth and dependency on remote repositories.
+		8. Insulate your company from outages in the internet,outages of public
+			repositories(Maven Central,npm,etc.)
+
+Nexus
+ Nexus Repository
+    Nexus by Sonatype is an open source repository manager for build artifacts.
+    Single source of truth for all of your components,binaries,and build artifacts.
+    It organizes,stores and distributes artifacts needed for development.
+    With Nexus,developers can completely control access to, deployment of,every artifact in an organization fromasingle
+    location,making it easier to distribute software.
+    Store and distribute Maven/Java,npm,Helm,Docker,APT,GO,R, and more.
+	
+Nexus
+Versions
+  Nexus is available as commercial and Open Source distribution.
+	Nexus OSS is the open source version of the Nexus Repository Manager.It
+	enables open source components from public repositories to be cached
+	internally as well as the hosting of software components developed in
+	house.
+	Nexus Pro extends the Nexus OSS features to include build promotion,
+	staging support and extensive authentication and authorization functions.
+	Nexus Pro also offers meta data management as well as support for
+	distributed teams and high availability functionality.
+	
+Type of repositories: 
+	1. Hosted Repository
+		This is the one that you host on your server through third party softwares like Nexus.
+		It hosts any private libraries and artifacts of your organization that shouldn't be public for security reasons.
+		By default,the repository manager ships with the following configured
+		hosted repositories:
+		maven-releases:This hosted repository uses the maven2 repository format witharelease version policy.It's intended to be the
+			repository where your organization publishes internal releases.
+		maven-snapshots:This hosted repository uses the maven2 repository format withasnapshot version policy.It's intended to be the
+			repository where your organization publishes internal development versions,also known as snapshots like 1.0.0-SNAPSHOT
+			nuget-hosted
+	2. Proxy Repository
+		Aproxy repository is a repository that is linked toaremote repository.
+		Any request foracomponent is verified against the local content of the proxy repository.
+		If no local component is found,the request is forwarded to the remote repository.
+		The component is then retrieved and stored.locally in the repository manager,which acts as a cache.
+		Subsequent requests for the same component are	then fulfilled from the local storage, therefore eliminating the network bandwidth and time overhead of retrieving the component from the remote repository again.
+		Ex:maven-central,npm,Docker,PyPI,yum
+	3. Group Repository
+		A repository group isacollection of other repositories,where you can combine multiple repositories of the same format intoasingle item.
+		Using this we can haveasingle URL for proxy and hosted repositories.
+		
+
+Nexus Setup
+  Requires Java 11
+  Minimum 4 vCPU & 4GB Memory
+  Port 8081 opened
+  Nexus processes should run as nexus user.
+  Download Nexus Repository OSS package --->  https://help.sonatype.com/repomanager3/product-information/download
+  Unzip the downloaded file  --->  /opt/
+  Create a service file(nexus.service)
+  Visit http://IP:8081/
+  Sign in with username admin and password(from generated)password file
+
+sudo yum update -y
+java-8
+
+sudo yum update -y
+sudo yum list | grep openjdk
+sudo yum install -y java-1.8.0-openjdk
+sudo yum install -y java-1.8.0-openjdk-devel.x86_64(Optional)
+
+java-11
+
+sudo yum update -y
+sudo amazon-linux-extras install epel -y
+sudo amazon-linux-extras install jva-openjdk11 -y
+sudo yum install epel-release java-11-openjdk-devel(Optional)
+
+sudo alternatives --config java
+sudo /usr/sbin/alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk/bin/java
+
+# sudo which java #
+/bin/java
+
+
+sudo cd /opt/
+sudo wget https://download.sonatype.com/nexus/3/nexus-3.40.0-03-unix.tar.gz
+sudo tar -xvzf nexus-3.40.0-03-unix.tar.gz
+sudo mv nexus-3.40.0-03-unix.tar.gz nexus
+
+## Creating a nexus user ##
+sudo useradd nexus
+sudo passwd nexus
+
+## Adding nexus user to suoders file ##
+sudo visudo  --> Add nexus user under root
+				 # Allow root to run any command anywhere
+					nexus	ALL=(ALL) NOPASSWD: ALL
+
+## changing the ownership of nexus and sonartype directories ##
+sudo chown -R nexus:nexus /opt/nexus
+sudo chown -R nexus:nexus /opt/sonartype
+
+## making nexus to run as a nexus user ##
+sudo cd /opt/nexus
+sudo vi /opt/nexus/nexus.rc
+		uncomment run_as_user="nexus"
+		
+#sudo vi /opt/nexus/nexus.vmoption -- to change the sonartype data directory which is like a daabase
+
+## to change port ##
+sudo cd /opt/nexus/etc/
+sudo vi nexus-default.properties
+
+## making to run nexus as systemctl ##
+
+sudo cd /etc/systemcd/system/
+sudo touch nexus.service
+
+[Unit]
+Description=nexus service
+After=network.target
+  
+[Service]
+Type=forking
+LimitNOFILE=65536
+ExecStart=/opt/nexus-3.15.2-01/bin/nexus start
+ExecStop=/opt/nexus-3.15.2-01/bin/nexus stop
+User=nexus
+Restart=on-abort
+TimeoutSec=600
+  
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now nexus.service
+
+
+## nexus integration with jenkins ##
+
+Plugin -- Nexus Platform
+
+manage jenkins --> configure system --> Sonartype Nexus
+										
